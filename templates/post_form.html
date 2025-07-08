@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="title">{% if post %}Редактировать пост{% else %}Создать новый пост{% endif %}</h1>
+
+    <form method="POST" action="{% if post %}{{ url_for('edit_post', post_id=post.id) }}{% else %}{{ url_for('new_post') }}{% endif %}">
+        <div class="field">
+            <label class="label" for="title">Заголовок</label>
+            <div class="control">
+                <input class="input" type="text" id="title" name="title" 
+                       value="{{ post.title if post else '' }}" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label" for="content">Содержание</label>
+            <div class="control">
+                <textarea class="textarea" id="content" name="content" rows="15" required>{{ post.content if post else '' }}</textarea>
+            </div>
+        </div>
+
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-primary" type="submit">
+                    {% if post %}Обновить пост{% else %}Создать пост{% endif %}
+                </button>
+            </div>
+            <div class="control">
+                <a class="button is-link is-light" href="{{ url_for('index') }}">Отмена</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

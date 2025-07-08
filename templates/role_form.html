@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1 class="title">{{ title }}</h1>
+
+    <form method="POST" novalidate>
+        <div class="field">
+            <label for="name" class="label">Название роли <span class="has-text-danger">*</span></label>
+            <div class="control">
+                <input type="text" class="input" id="name" name="name" value="{{ role.name if role else '' }}" required>
+            </div>
+            <p class="help">Краткое, уникальное имя для идентификации роли (например, "Критик", "Оптимист").</p>
+        </div>
+
+        <div class="field">
+            <label for="description" class="label">Описание</label>
+            <div class="control">
+                <textarea class="textarea" id="description" name="description" rows="2">{{ role.description if role else '' }}</textarea>
+            </div>
+            <p class="help">Подробное описание того, что эта роль делает.</p>
+        </div>
+
+        <div class="field">
+            <label for="system_prompt" class="label">Системный промпт</label>
+            <div class="control">
+                <textarea class="textarea" id="system_prompt" name="system_prompt" rows="4">{{ role.system_prompt if role else 'Ты - полезный AI-ассистент, комментирующий текст.' }}</textarea>
+            </div>
+            <p class="help">Инструкция для AI, определяющая его личность и общую задачу.</p>
+        </div>
+
+        <div class="field">
+            <label for="prompt_template" class="label">Шаблон промпта <span class="has-text-danger">*</span></label>
+            <div class="control">
+                <textarea class="textarea" id="prompt_template" name="prompt_template" rows="6" required>{{ role.prompt_template if role else '' }}</textarea>
+            </div>
+            <p class="help">Шаблон для генерации комментария. Используйте <code>{post_content}</code> для подстановки текста поста.
+                <br>Пример: <code>Проанализируй следующий текст с точки зрения критика: "{post_content}"</code></p>
+        </div>
+        <div class="field is-grouped">
+            <div class="control">
+                <button type="submit" class="button is-success">{% if role and role.id %}Сохранить изменения{% else %}Создать роль{% endif %}</button>
+            </div>
+            <div class="control">
+                <a href="{{ url_for('roles_index') }}" class="button is-link is-light">Отмена</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

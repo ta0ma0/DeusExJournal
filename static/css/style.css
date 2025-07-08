@@ -1,0 +1,360 @@
+/* static/css/style.css */
+
+:root {
+    --bulma-primary: #00d1b2;
+    --bulma-primary-hover: #00b89c;
+    --bulma-info: #3273dc;
+    --bulma-info-hover: #276cda;
+    --bulma-danger: #f14668;
+    --bulma-danger-hover: #ee3158;
+    --text-color: #363636;
+    --text-light: #7a7a7a;
+    --background: #f5f5f5;
+    --border: #dbdbdb;
+    --white: #fff;
+    --link: #3273dc;
+    --radius: 6px;
+    --shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+}
+
+/* --- Базовые стили --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 30px 20px; 
+    flex-grow: 1; /* Заставляет контейнер расти, отодвигая футер вниз */
+}
+
+/* Заголовки */
+.title {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+.title.is-4 { /* Для подзаголовков постов */
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+/* Кнопки */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    border-radius: var(--radius);
+    transition: background-color 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.table {
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--border);
+    border-collapse: collapse;
+}
+.button.is-primary {
+    background-color: var(--bulma-primary);
+    color: var(--white);
+}
+.button.is-primary:hover {
+    background-color: var(--bulma-primary-hover);
+}
+
+.button.is-info {
+    background-color: var(--bulma-info);
+    color: var(--white);
+}
+.button.is-info:hover {
+    background-color: var(--bulma-info-hover);
+}
+
+.button.is-danger {
+    background-color: var(--bulma-danger);
+    color: var(--white);
+}
+.button.is-danger:hover {
+    background-color: var(--bulma-danger-hover);
+}
+
+.button.is-link.is-light { /* Для кнопки "Отмена" */
+    background-color: #f0f4f8;
+    color: var(--link);
+    border-color: var(--border);
+}
+.button.is-link.is-light:hover {
+    background-color: #e6eff7;
+}
+
+.button.is-light { /* Для кнопок чтения/редактирования */
+    background-color: var(--background);
+    color: var(--text-color);
+    border-color: var(--border);
+}
+.button.is-light:hover {
+    background-color: #eaeaea;
+}
+
+.button.is-small {
+    font-size: 0.8em;
+    padding: 6px 12px;
+}
+
+
+/* Формы */
+.field {
+    margin-bottom: 1.5rem;
+}
+
+.label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.control {
+    position: relative; /* Для Bulma */
+}
+
+.input,
+.textarea {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-sizing: border-box; /* Важно, чтобы padding не увеличивал ширину */
+}
+
+.input:focus,
+.textarea:focus {
+    border-color: var(--link);
+    outline: none;
+    box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+}
+
+.textarea {
+    resize: vertical; /* Разрешить изменение размера только по вертикали */
+}
+
+.field.is-grouped {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px; /* Промежуток между кнопками */
+}
+
+
+/* Блоки постов и комментариев */
+.box {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Навигационная панель */
+.navbar {
+    background-color: var(--text-color);
+    min-height: 3.25rem; /* Стандартная высота Bulma nav */
+    display: flex;
+    align-items: stretch;
+    padding: 0 20px; /* Отступы по бокам */
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: stretch;
+}
+
+.navbar-item {
+    color: var(--white);
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.navbar-item:hover {
+    background-color: #4a4a4a;
+    color: var(--white);
+}
+
+.navbar-menu {
+    display: flex;
+    flex-grow: 1; /* Чтобы меню занимало все доступное пространство */
+    justify-content: flex-start; /* Выравнивание элементов меню слева */
+}
+
+.navbar-start {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .title.has-text-white { /* Стили для заголовка в навигации */
+    color: var(--white);
+    font-size: 1.5em; /* Меньше, чем основной заголовок */
+    margin-bottom: 0;
+}
+
+/* Футер */
+.footer {
+    padding: 20px;
+    background-color: #eee;
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--text-light);
+    margin-top: 40px;
+}
+
+/* Уведомления (flash messages) */
+.notification {
+    padding: 1.25rem 2.5rem 1.25rem 1.5rem;
+    border-radius: var(--radius);
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.notification.is-success {
+    background-color: #d1fae5;
+    color: #10b981;
+}
+
+.notification.is-info {
+    background-color: #dbeafe;
+    color: #3b82f6;
+}
+
+.notification.is-warning {
+    background-color: #fef3c7;
+    color: #f59e0b;
+}
+
+.notification.is-danger {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+.notification .delete {
+    -webkit-appearance: none;
+    background-color: rgba(10, 10, 10, 0.2);
+    border: none;
+    border-radius: 9999px; /* Более стандартный способ сделать круг */
+    cursor: pointer;
+    pointer-events: auto;
+    display: inline-block;
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-size: 0;
+    height: 20px;
+    max-height: 20px;
+    max-width: 20px;
+    min-height: 20px;
+    min-width: 20px;
+    outline: none;
+    position: absolute;
+    right: 1.25rem;
+    top: 1.25rem;
+    width: 20px;
+}
+
+.notification .delete::before, .notification .delete::after {
+    background-color: var(--white); /* Цвет крестика */
+    content: "";
+    display: block;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%) rotate(45deg);
+    transform-origin: center center;
+    height: 2px;
+    width: 50%;
+}
+
+.notification .delete::after {
+    transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+}
+
+
+/* Дополнительные стили для элементов поста на главной */
+.content p {
+    margin-bottom: 1em;
+}
+.level {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+.level-left, .level-right {
+    display: flex;
+    align-items: center;
+}
+.level-item {
+    margin-right: 10px;
+}
+.level-item:last-child {
+    margin-right: 0;
+}
+.has-text-grey-light {
+    color: #b5b5b5;
+}
+.is-size-7 {
+    font-size: 0.75rem;
+}
+
+/* Стили для детального просмотра поста */
+.post-content {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.comment-list {
+    margin-top: 30px;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.comment-header .comment-role-name {
+    font-weight: bold;
+    color: var(--link); /* Цвет для имени роли */
+}
+
+.comment-header .comment-date {
+    font-size: 0.8em;
+    color: var(--text-light);
+}
+
+.comment-text {
+    margin-bottom: 15px;
+    white-space: pre-wrap; /* Сохраняет переносы строк из LLM */
+    line-height: 1.7; /* Чуть больше межстрочный интервал для читаемости */
+}
+
+/* Убираем невалидный ID-селектор */
+/* #roles_actions был заменен на классы в шаблонах */

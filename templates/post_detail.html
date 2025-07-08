@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <h1 class="title">{{ post.title }}</h1>
+    
+    <div class="level is-mobile is-align-items-center">
+        <div class="level-left">
+            <div class="level-item has-text-grey-light is-size-7">
+                Опубликовано: {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}
+                {% if post.created_at != post.updated_at %}
+                    <br>Изменено: {{ post.updated_at.strftime('%Y-%m-%d %H:%M') }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="level-right">
+            <div class="level-item">
+                <a class="button is-small is-info is-light" href="{{ url_for('edit_post', post_id=post.id) }}">
+                    Редактировать
+                </a>
+            </div>
+            <div class="level-item">
+                <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST" onsubmit="return confirm('Вы уверены, что хотите удалить этот пост?');">
+                    <button type="submit" class="button is-small is-danger is-light">
+                        Удалить
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-content box"> {# Используем box для основного контента поста #}
+        <div class="content">
+            {{ post.content | safe }} {# | safe, если вы хотите отображать HTML, иначе убрать #}
+        </div>
+    </div>
+
+    <h2 class="title is-4">Комментарии LLM ({{ comments|length }})</h2>
+
+    <div class="mb-4">
+        {% if roles|length > 1 %}
+            {# Если ролей много, показываем форму с выбором #}
+            <form action="{{ url_for('generate_comments_for_post', post_id=post.id) }}" method="POST">
+                <div class="field is-grouped">
+                    <div class="control">
+                        <div class="select">
+                            <select name="role_id" aria-label="Выберите роль">
+                                <option value="all">Для всех ролей</option>
+                                {% for role in roles %}
+                                    <option value="{{ role.id }}">{{ role.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button type="submit" class="button is-primary">Сгенерировать</button>
+                    </div>
+                </div>
+            </form>
+        {% elif roles|length == 1 %}
+            {# Если роль одна, просто кнопка для генерации #}
+            <form action="{{ url_for('generate_comments_for_post', post_id=post.id) }}" method="POST">
+                <button type="submit" class="button is-primary">Сгенерировать комментарий ({{ roles[0].name }})</button>
+            </form>
+        {% else %}
+            {# Если ролей нет, показываем уведомление #}
+            <div class="notification is-warning">
+                В системе нет ни одной роли для генерации комментариев.
+                <a href="{{ url_for('new_role') }}">Создайте первую роль</a>.
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="comment-list">
+        {% if comments %}
+            {% for comment in comments %}
+                <div class="box">
+                    <div class="comment-header">
+                        <span class="comment-role-name">{{ comment.role.name }}</span>
+                        <span class="comment-date">{{ comment.generated_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                    </div>
+                    <div class="content comment-text">
+                        {{ comment.comment_text | safe }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="notification is-info">
+                Комментарии пока не сгенерированы. Нажмите "Сгенерировать комментарии" выше!
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="buttons">
+        <a class="button is-link is-light" href="{{ url_for('index') }}">
+            Вернуться ко всем постам
+        </a>
+    </div>
+
+{% endblock %}

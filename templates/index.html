@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Все посты{% endblock %}
+
+{% block content %}
+    <h1 class="title">Мои мысли и размышления</h1>
+
+    <div class="buttons">
+        <a class="button is-primary" href="{{ url_for('new_post') }}">
+            Создать новый пост
+        </a>
+        <a class="button is-info" href="{{ url_for('roles_index') }}">
+            Управление LLM ролями
+        </a>
+    </div>
+
+    {% if posts %}
+        {% for post in posts %}
+            <div class="box">
+                <h2 class="title is-4">
+                    <a href="{{ url_for('view_post', post_id=post.id) }}">{{ post.title }}</a>
+                </h2>
+                <div class="content">
+                    <p>{{ post.content | truncate(200) }}</p>
+                </div>
+                <div class="level is-mobile is-align-items-center">
+                    <div class="level-left">
+                        <div class="level-item has-text-grey-light is-size-7">
+                            Опубликовано: {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}
+                            {% if post.created_at != post.updated_at %}
+                                <br>Изменено: {{ post.updated_at.strftime('%Y-%m-%d %H:%M') }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <div class="level-item">
+                            <a class="button is-small is-light" href="{{ url_for('view_post', post_id=post.id) }}">
+                                Читать и комментировать ({{ post.comments|length }})
+                            </a>
+                        </div>
+                        <div class="level-item">
+                            <a class="button is-small is-info is-light" href="{{ url_for('edit_post', post_id=post.id) }}">
+                                Редактировать
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="notification is-info">
+            Пока нет ни одного поста. <a href="{{ url_for('new_post') }}">Создайте первый!</a>
+        </div>
+    {% endif %}
+{% endblock %}
