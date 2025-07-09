@@ -205,5 +205,3 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
-migrations/versions/5acd05ac5170_fix_is_active_column_in_role_to_be_non_.py
-migrations/versions/7d4e33d02a1e_add_is_active_field_to_role_model.py
