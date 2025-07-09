@@ -24,5 +24,8 @@ ENV FLASK_DEBUG=0
 
 # Копируем файл конфигурации .env в контейнер
 COPY .env .
+RUN flask db init
+RUN flask db migrate -m "Initial migration"
+RUN flask db upgrade
 
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
