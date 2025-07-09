@@ -30,7 +30,9 @@ def view_post(post_id):
     """Отображает детальную страницу поста с комментариями."""
     post = Post.query.get_or_404(post_id)
     comments = Comment.query.filter_by(post_id=post.id).order_by(Comment.generated_at.desc()).all()
-    roles = Role.query.order_by(Role.name).all()
+    # Получаем только активные роли для отображения в выпадающем списке
+    roles = Role.query.filter_by(is_active=True).order_by(Role.name).all()
+
     return render_template('post_detail.html', post=post, comments=comments, roles=roles)
 
 
@@ -67,15 +69,18 @@ def generate_comments_for_post(post_id):
     post = Post.query.get_or_404(post_id)
     selected_role_id = request.form.get('role_id')
     
+    # Переписываем логику выбора ролей, чтобы избежать дублирования
     roles_to_process = []
     if selected_role_id and selected_role_id != 'all':
-        role = Role.query.get(selected_role_id)
+        # Ищем одну конкретную роль, но убеждаемся, что она активна
+        role = Role.query.filter_by(id=selected_role_id, is_active=True).first()
         if role:
-            roles_to_process.append(role)
+            roles_to_process = [role] # Результат - список с одним элементом
         else:
-            flash(f"Роль с ID {selected_role_id} не найдена.", 'danger')
+            flash(f"Активная роль с ID {selected_role_id} не найдена.", 'danger')
     else:
-        roles_to_process = Role.query.all()
+        # Иначе, берем все активные роли
+        roles_to_process = Role.query.filter_by(is_active=True).all()
 
     if not roles_to_process:
         flash('Не выбрано ни одной роли для генерации комментариев.', 'warning')
@@ -84,7 +89,7 @@ def generate_comments_for_post(post_id):
     generated_count = 0
     for i, role in enumerate(roles_to_process):
         if i > 0:
-            time.sleep(5)
+            time.sleep(60)
 
         user_prompt = role.prompt_template.format(post_content=post.content)
         comment_text = generate_comment(role.system_prompt, user_prompt)
@@ -169,4 +174,14 @@ def delete_role(role_id):
         db.session.delete(role)
         db.session.commit()
         flash('Роль успешно удалена!', 'success')
+    return redirect(url_for('roles_index'))
+
+@app.route('/role/<int:role_id>/toggle_active', methods=['POST'])
+def toggle_role_active(role_id):
+    """Переключает статус активности роли."""
+    role = Role.query.get_or_404(role_id)
+    role.is_active = not role.is_active
+    db.session.commit()
+    status = "активирована" if role.is_active else "деактивирована"
+    flash(f'Роль "{role.name}" была успешно {status}.', 'success')
     return redirect(url_for('roles_index'))

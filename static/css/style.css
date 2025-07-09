@@ -55,10 +55,10 @@ body {
     font-size: 1em;
     cursor: pointer;
     text-align: center;
-    text-decoration: none;
     border-radius: var(--radius);
     transition: background-color 0.3s ease;
     border: 1px solid transparent;
+    text-decoration: none;
 }
 
 .table {
@@ -66,6 +66,35 @@ body {
     border-width: 1px;
     border-color: var(--border);
     border-collapse: collapse;
+}
+
+
+
+.tbody{
+    padding-left: 5px;
+}
+
+td {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+tr {
+    border-bottom: 1px solid #ccc;
+}
+span.is-success {
+    background-color: #d1fae5;
+    color: #10b981;
+
+}
+
+thead {
+    background-color: #00b89c;
+}
+
+span.is-light {
+    background-color: #eaeaea;
+    color: var(--text-color);
 }
 .button.is-primary {
     background-color: var(--bulma-primary);
@@ -78,6 +107,7 @@ body {
 .button.is-info {
     background-color: var(--bulma-info);
     color: var(--white);
+    margin-left: 20px;
 }
 .button.is-info:hover {
     background-color: var(--bulma-info-hover);
@@ -85,10 +115,22 @@ body {
 
 .button.is-danger {
     background-color: var(--bulma-danger);
+    opacity: 75%;
     color: var(--white);
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.button.is-success {
+    width: 100%;
 }
 .button.is-danger:hover {
     background-color: var(--bulma-danger-hover);
+}
+
+a.button {
+    color: #35865d;
 }
 
 .button.is-link.is-light { /* Для кнопки "Отмена" */
@@ -166,6 +208,7 @@ body {
     box-shadow: var(--shadow);
     padding: 20px;
     margin-bottom: 20px;
+    margin-top: 40px;
 }
 
 /* Навигационная панель */
@@ -175,6 +218,7 @@ body {
     display: flex;
     align-items: stretch;
     padding: 0 20px; /* Отступы по бокам */
+    padding-bottom: 20px;
 }
 
 .navbar-brand {
@@ -205,6 +249,7 @@ body {
 .navbar-start {
     display: flex;
     align-items: center;
+    padding-top: 20px;
 }
 
 .navbar .title.has-text-white { /* Стили для заголовка в навигации */
