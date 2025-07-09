@@ -2,9 +2,6 @@
 
 Интерактивная платформа для интеллектуального роста.
 
-[![Статус сборки](https://img.shields.io/github/actions/workflow/status/your-username/DeusExJournal/main.yml?branch=main)](https://github.com/your-username/DeusExJournal/actions)
-[![Лицензия](https://img.shields.io/github/license/your-username/DeusExJournal)](LICENSE)
-[![Версия](https://img.shields.io/github/v/release/your-username/DeusExJournal)](https://github.com/your-username/DeusExJournal/releases)
 
 ---
 
@@ -32,28 +29,32 @@
 
 ### Предварительные требования
 
-*   [Docker](https://www.docker.com/) и Docker Compose
+*   [Git](https://git-scm.com/book/ru/v2/%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-Git)
+*   [Docker](https://www.docker.com/)
 
 ### Установка
 
-1.  **Клонируйте репозиторий:**
+1. **Установка git, для получения файлов приложения**
+    [Все способы установки для разных OS](https://git-scm.com/book/ru/v2/%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-Git)
+
+2.  **Клонируйте репозиторий:**
     ```bash
-    git clone https://github.com/your-username/DeusExJournal.git
+    git clone https://github.com/ta0ma0/DeusExJournal.git
     cd DeusExJournal
     ```
 
-2.  **Установите зависимости:**
-    ```bash
+3.  **Установите зависимости:**
+    - Установка Docker Desktop: 
+    "Пожалуйста, скачайте и установите Docker Desktop для вашей операционной системы (Windows, macOS, Linux) с официального сайта Docker: https://www.docker.com/products/docker-desktop/
+    После установки убедитесь, что Docker запущен (вы увидите иконку Docker в системном трее/панели)."
 
-    ```
-
-3.  **Настройте переменные окружения:**
-    Скопируйте файл `.env.example` в новый файл с именем `.env` и заполните необходимые значения (ключи API, строка подключения к базе данных и т.д.).
+4.  **Настройте переменные окружения:**
+    Скопируйте файл `.env.example` в новый файл с именем `.env` и заполните необходимые значения (ключи API Gemini).
     ```bash
     cp .env.example .env
     ```
 
-4.  **Запустите базу данных с помощью Docker:**
+5.  **Запустите приложение с помощью Docker:**
     ```bash
     docker-compose up -d
     ```
