@@ -43,7 +43,7 @@
     cd DeusExJournal
     ```
 
-3.  **Установите зависимости:**
+3.  **Установите Docker и Docker-compose:**
     - Установка Docker Desktop: 
     "Пожалуйста, скачайте и установите Docker Desktop для вашей операционной системы (Windows, macOS, Linux) с официального сайта Docker: https://www.docker.com/products/docker-desktop/
     После установки убедитесь, что Docker запущен (вы увидите иконку Docker в системном трее/панели)."
@@ -54,7 +54,7 @@
     cp .env.example .env
     ```
 
-5.  **Запустите приложение с помощью Docker:**
+5.  **Запустите приложение с помощью Docker-compose:**
     ```bash
     docker-compose up -d
     ```
