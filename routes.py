@@ -89,7 +89,7 @@ def generate_comments_for_post(post_id):
     generated_count = 0
     for i, role in enumerate(roles_to_process):
         if i > 0:
-            time.sleep(60)
+            time.sleep(5)
 
         user_prompt = role.prompt_template.format(post_content=post.content)
         comment_text = generate_comment(role.system_prompt, user_prompt)
