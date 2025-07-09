@@ -24,5 +24,6 @@ ENV FLASK_DEBUG=0
 
 # Копируем файл конфигурации .env в контейнер
 COPY .env .
+RUN python init_db.py  
 
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
