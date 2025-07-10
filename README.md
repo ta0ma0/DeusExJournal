@@ -65,11 +65,20 @@
     ```bash
     docker build --network=host -t deusexjournal-app .
     ```
+    Альтернативная команда запуска, если выбран вариант с пробросом портов из контейнера в хост.
+    ```bash
+    docker build -t deusexjournal-app .
+    ```
+
 6. **Запустите приложение**
     Для запуска на интефейсе хоста без проброса портов из контейнера в хост.
     ```
     bash
     docker run --network host deusexjournal-app
+    ```
+    Запуск с пробросом портов из контейнера в хост.
+    ```bash
+    docker run -p 5000:5000 deusexjournal-app
     ```
 
 
