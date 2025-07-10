@@ -11,7 +11,16 @@
         </div>
         <div class="level-right">
             <div class="level-item">
-                <a href="{{ url_for('new_role') }}" class="button is-primary">Создать новую роль</a>
+                <a href="{{ url_for('new_role') }}" class="button is-primary" id="new-role">Создать новую роль</a>
+            </div>
+            <div class="level-item">
+                <a href="{{ url_for('export_roles') }}" class="button is-info" id="export-roles">Экспорт ролей</a>
+            </div>
+            <div class="level-item">
+                <form method="POST" action="{{ url_for('import_roles') }}" enctype="multipart/form-data">
+                    <input type="file" name="file" accept=".json" required>
+                    <button type="submit" class="button is-warning" id="import-roles">Импорт ролей</button>
+                </form>
             </div>
         </div>
     </div>

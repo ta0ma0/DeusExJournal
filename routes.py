@@ -1,8 +1,10 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, send_file
 from app import app, db
 from models import Post, Role, Comment
 from config import Config
 import time
+import json
+import os
 
 
 @app.route('/')
@@ -24,7 +26,6 @@ def new_post():
             db.session.commit()
             flash('Пост успешно создан!', 'success')
             return redirect(url_for('index'))
-    return render_template('post_form.html', post=None)
 
 @app.route('/post/<int:post_id>')
 def view_post(post_id):
@@ -53,7 +54,6 @@ def edit_post(post_id):
             db.session.commit()
             flash('Пост успешно обновлен!', 'success')
             return redirect(url_for('view_post', post_id=post.id))
-            
     return render_template('post_form.html', post=post)
 
 @app.route('/post/<int:post_id>/delete', methods=['POST'])
@@ -115,7 +115,6 @@ def generate_comments_for_post(post_id):
         flash(f'Успешно сгенерировано {generated_count} комментариев!', 'success')
     return redirect(url_for('view_post', post_id=post.id))
 
-
 @app.route('/roles')
 def roles_index():
     """Отображает список всех ролей."""
@@ -161,7 +160,7 @@ def edit_role(role_id):
 
         existing_role = Role.query.filter(Role.name == new_name, Role.id != role_id).first()
         if existing_role:
-            flash('Роль с таким названием уже существует.', 'danger')
+            flash('Роль с таким названием уже существует.', 'danger')            
             return render_template('role_form.html', role=role, title=f"Редактировать роль: {role.name}")
 
         role.name = new_name
@@ -194,4 +193,85 @@ def toggle_role_active(role_id):
     db.session.commit()
     status = "активирована" if role.is_active else "деактивирована"
     flash(f'Роль "{role.name}" была успешно {status}.', 'success')
+    return redirect(url_for('roles_index'))
+
+
+
+@app.route('/roles/export')
+def export_roles():
+    """Экспортирует все роли в JSON файл."""
+    roles = Role.query.all()
+    roles_data = [{'name': role.name, 
+                   'description': role.description,
+                   'system_prompt': role.system_prompt,
+                   'prompt_template': role.prompt_template,
+                   'is_active': role.is_active}  # Добавляем is_active
+                  for role in roles]
+    
+    # Формируем имя файла с временной меткой
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+    filename = f"roles_export_{timestamp}.json"
+    
+    # Указываем путь для сохранения файла во временной папке экземпляра Flask
+    filepath = os.path.join(app.instance_path, filename)
+
+    with open(filepath, 'w', encoding='utf-8') as f:
+        json.dump(roles_data, f, ensure_ascii=False, indent=4)  # Включаем indent для читаемости
+
+    # Возвращаем файл пользователю для скачивания
+    return send_file(filepath, 
+                     as_attachment=True, 
+                     download_name=filename,  # Имя файла для скачивания
+                     mimetype='application/json')
+
+from flask import request
+
+@app.route('/roles/import', methods=['POST'])
+def import_roles():
+    """Импортирует роли из JSON файла."""
+    if 'file' not in request.files:
+        flash('Не выбрано ни одного файла.', 'danger')
+        return redirect(url_for('roles_index'))
+
+    file = request.files['file']
+    if file.filename == '':
+        flash('Не выбран файл для импорта.', 'danger')
+        return redirect(url_for('roles_index'))
+
+    if file and file.filename.endswith('.json'):
+        try:
+            roles_data = json.load(file)
+            imported_count = 0
+            updated_count = 0
+            for role_data in roles_data:
+                # Проверяем наличие обязательных полей
+                if not all(key in role_data for key in ['name', 'prompt_template']):
+                    flash(f"Ошибка: В данных отсутствует обязательное поле (name, prompt_template). Пропущена запись: {role_data.get('name', 'N/A')}", 'danger')
+                    continue
+
+                role = Role.query.filter_by(name=role_data['name']).first()
+                if role:
+                    # Роль с таким именем уже существует, обновляем данные
+                    role.description = role_data.get('description', '')
+                    role.system_prompt = role_data.get('system_prompt', "Ты - полезный AI-ассистент, комментирующий текст.")
+                    role.prompt_template = role_data['prompt_template']
+                    role.is_active = role_data.get('is_active', True)
+                    updated_count += 1
+                else:
+                    # Создаем новую роль
+                    new_role = Role(**role_data)
+                    db.session.add(new_role)
+                    imported_count += 1
+
+            db.session.commit()
+            if imported_count > 0:
+                flash(f'Успешно импортировано {imported_count} ролей.', 'success')
+            if updated_count > 0:
+                flash(f'Успешно обновлено {updated_count} ролей.', 'info')
+        except json.JSONDecodeError:
+            flash('Ошибка: Некорректный JSON файл.', 'danger')
+        except Exception as e:
+            flash(f'Произошла ошибка при импорте ролей: {e}', 'danger')
+    else:
+        flash('Ошибка: Допустим только импорт JSON файлов.', 'danger')
     return redirect(url_for('roles_index'))

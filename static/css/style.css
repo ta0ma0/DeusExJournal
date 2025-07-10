@@ -156,6 +156,21 @@ a.button {
     padding: 6px 12px;
 }
 
+#new-role {
+    font-size: 15px;
+    padding: 2px;
+
+}
+
+#export-roles {
+    font-size: 10px;
+    padding: 3px;
+}
+
+#import-roles {
+    font-size: 10px;
+    padding: 3px;
+}
 
 /* Формы */
 .field {

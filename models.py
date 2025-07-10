@@ -19,8 +19,6 @@ class Role(db.Model):
     system_prompt = db.Column(db.Text, nullable=False,
                               default="Ты - полезный AI-ассистент, комментирующий текст.")
     prompt_template = db.Column(db.Text, nullable=False)
-    # nullable=False - это правильное состояние, поле не должно быть пустым.
-    # server_default='true' - инструкция для БД, какое значение использовать по умолчанию.
     is_active = db.Column(db.Boolean, nullable=False, default=True, server_default='true')
 
     comments = db.relationship('Comment', backref='role', lazy=True)
