@@ -5,8 +5,6 @@ genai.configure(api_key=Config.GEMINI_API_KEY)
 
 
 def generate_comment(system_prompt: str, user_prompt: str) -> str:
-    if not Config.GEMINI_API_KEY:
-        return "Ошибка: API ключ Google Gemini не установлен."
     try:
 
         model = genai.GenerativeModel(

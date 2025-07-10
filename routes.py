@@ -1,8 +1,9 @@
 from flask import render_template, request, redirect, url_for, flash
 from app import app, db
 from models import Post, Role, Comment
+from config import Config
 import time
-from llm_service import generate_comment
+
 
 @app.route('/')
 def index():
@@ -92,6 +93,15 @@ def generate_comments_for_post(post_id):
             time.sleep(5)
 
         user_prompt = role.prompt_template.format(post_content=post.content)
+
+        # Определяем, какой сервис использовать для генерации комментария
+        if Config.GEMINI_API_KEY:
+            from llm_service import generate_comment  # Импортируем здесь, чтобы избежать ошибки циклического импорта
+        elif Config.OPENAI_API_KEY:
+            from llm_openai_service import generate_comment
+        else:
+            flash('Не найден API ключ ни для Gemini, ни для OpenAI.', 'danger')
+            return redirect(url_for('view_post', post_id=post.id))
         comment_text = generate_comment(role.system_prompt, user_prompt)
 
         if "Ошибка при генерации комментария" in comment_text:
