@@ -282,6 +282,10 @@ a.button {
     margin-bottom: 0;
 }
 
+nav.navbar.is-light {
+width: 96%;
+}
+
 /* Футер */
 .footer {
     padding: 20px;
