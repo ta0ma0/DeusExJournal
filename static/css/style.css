@@ -158,18 +158,24 @@ a.button {
 
 #new-role {
     font-size: 15px;
-    padding: 2px;
-
+    padding: 15px;
+    margin-left: -130px;
 }
 
+
 #export-roles {
-    font-size: 10px;
-    padding: 3px;
+    font-size: 15px;
+    padding: 15px;
 }
 
 #import-roles {
-    font-size: 10px;
-    padding: 3px;
+    font-size: 15px;
+    padding: 10px;
+    margin-right: -120px;
+}
+
+#file_input {
+    margin-right: -40px;
 }
 
 /* Формы */
@@ -239,6 +245,7 @@ a.button {
 .navbar-brand {
     display: flex;
     align-items: stretch;
+    margin-bottom: 20px;
 }
 
 .navbar-item {
@@ -264,7 +271,9 @@ a.button {
 .navbar-start {
     display: flex;
     align-items: center;
-    padding-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 10px;
 }
 
 .navbar .title.has-text-white { /* Стили для заголовка в навигации */
@@ -418,3 +427,21 @@ a.button {
 
 /* Убираем невалидный ID-селектор */
 /* #roles_actions был заменен на классы в шаблонах */
+
+.navbar {
+  display: flex;
+  justify-content: space-around; /* Равномерное распределение с равными промежутками */
+  align-items: center; /* Выравнивание по вертикали */
+  width: 100%; /* Занимает всю ширину контейнера */
+  padding: 10px 20px; /* Отступы */
+}
+
+.navbar-start,
+.navbar-end {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-item {
+  margin: 0 10px; /* Отступы между элементами */
+}

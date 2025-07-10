@@ -1,0 +1,10 @@
+<div class="navbar-start">
+    <a href="{{ url_for('new_role') }}" class="button is-primary navbar-item" id="new-role">Создать новую роль</a>
+</div>
+<div class="navbar-end">
+    <a href="{{ url_for('export_roles') }}" class="button is-info navbar-item" id="export-roles">Экспорт ролей</a>
+    <form method="POST" action="{{ url_for('import_roles') }}" enctype="multipart/form-data" class="navbar-item">
+        <input id="file_input" type="file" name="file" accept=".json" required>
+        <button type="submit" class="button is-warning" id="import-roles">Импорт ролей</button>
+    </form>
+</div>
