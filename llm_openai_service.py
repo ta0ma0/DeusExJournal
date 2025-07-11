@@ -1,5 +1,7 @@
 import openai
 from config import Config
+from openai import OpenAI
+client = OpenAI()
 
 if Config.OPENAI_API_KEY:
     openai.api_key = Config.OPENAI_API_KEY
@@ -10,17 +12,12 @@ def generate_comment(system_prompt: str, user_prompt: str) -> str:
         return "Ошибка: API ключ OpenAI не установлен."
 
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-4o-2024-08-06",  # Вы можете выбрать другую модель, например, "gpt-4"
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
-            max_tokens=800,
-            n=1,
-            stop=None,
-            temperature=0.7,
+        response = client.responses.create(
+            model="gpt-3.5-turbo",  # Вы можете выбрать другую модель, например, "gpt-4"
+            instructions = system_prompt,
+            input = user_prompt,
         )
-        return response.choices[0].message.content.strip()
+        print(model)
+        return response.choices[0].message.content
     except Exception as e:
         return f"Ошибка при генерации комментария через OpenAI: {e}"

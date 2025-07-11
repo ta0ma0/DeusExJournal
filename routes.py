@@ -26,6 +26,7 @@ def new_post():
             db.session.commit()
             flash('Пост успешно создан!', 'success')
             return redirect(url_for('index'))
+    return render_template('post_form.html')
 
 @app.route('/post/<int:post_id>')
 def view_post(post_id):
