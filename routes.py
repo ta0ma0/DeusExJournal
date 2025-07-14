@@ -116,6 +116,20 @@ def generate_comments_for_post(post_id):
         flash(f'Успешно сгенерировано {generated_count} комментариев!', 'success')
     return redirect(url_for('view_post', post_id=post.id))
 
+
+@app.route('/comment/<int:comment_id>/delete', methods=['POST'])
+def delete_comment(comment_id):
+    """Удаляет комментарий."""
+    comment = Comment.query.get_or_404(comment_id)
+    post_id = comment.post_id  # Сохраняем ID поста для перенаправления
+    db.session.delete(comment)
+    db.session.commit()
+    flash('Комментарий успешно удален!', 'success')
+    return redirect(url_for('view_post', post_id=post_id))
+
+
+
+
 @app.route('/roles')
 def roles_index():
     """Отображает список всех ролей."""

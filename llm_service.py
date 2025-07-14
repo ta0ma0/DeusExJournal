@@ -15,7 +15,7 @@ def generate_comment(system_prompt: str, user_prompt: str) -> str:
         response = model.generate_content(
             contents=user_prompt,
             generation_config=genai.types.GenerationConfig(
-                max_output_tokens=800,
+                max_output_tokens=900,
                 temperature=0.7,
                 # top_p=0.9, 
                 # top_k=40
