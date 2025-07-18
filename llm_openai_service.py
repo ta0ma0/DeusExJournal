@@ -13,7 +13,7 @@ def generate_comment(system_prompt: str, user_prompt: str) -> str:
 
     try:
         response = client.responses.create(
-            model="gpt-3.5-turbo",  # Вы можете выбрать другую модель, например, "gpt-4"
+            model="o3-mini-2025-01-31",  # Вы можете выбрать другую модель, например, "gpt-4"
             instructions = system_prompt,
             input = user_prompt,
         )
