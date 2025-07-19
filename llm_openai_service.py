@@ -1,21 +1,21 @@
-import openai
-from config import Config
 from openai import OpenAI
-client = OpenAI()
+from config import Config
 
-if Config.OPENAI_API_KEY:
-    openai.api_key = Config.OPENAI_API_KEY
+# Инициализация клиента с API ключом
+client = OpenAI(api_key=Config.OPENAI_API_KEY)
 
 def generate_comment(system_prompt: str, user_prompt: str) -> str:
-    """Generates a comment using OpenAI's API."""
+    """Генерация комментария через OpenAI Chat API."""
     if not Config.OPENAI_API_KEY:
         return "Ошибка: API ключ OpenAI не установлен."
 
     try:
-        response = client.responses.create(
-            model="gpt-3.5-turbo-0125",  # Вы можете выбрать другую модель, например, "gpt-4"
-            instructions = system_prompt,
-            input = user_prompt,
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo-0125",  # Можно заменить на "gpt-4"
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ]
         )
         return response.choices[0].message.content
     except Exception as e:
