@@ -17,7 +17,6 @@ def generate_comment(system_prompt: str, user_prompt: str) -> str:
             instructions = system_prompt,
             input = user_prompt,
         )
-        print(model)
         return response.choices[0].message.content
     except Exception as e:
         return f"Ошибка при генерации комментария через OpenAI: {e}"
